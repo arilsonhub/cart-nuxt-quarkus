@@ -1,0 +1,17 @@
+FROM node:16.16.0-slim
+
+ARG USER_HOME=/home/node
+ARG APP_HOME=/home/node/app
+
+ENV NUXT_HOST=0.0.0.0
+ENV NUXT_PORT=3000
+
+USER node
+
+RUN mkdir -p $APP_HOME
+
+COPY ./infra/web/entrypoint.sh $USER_HOME
+
+WORKDIR $APP_HOME
+
+ENTRYPOINT ["/home/node/entrypoint.sh"]
