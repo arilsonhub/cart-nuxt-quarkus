@@ -1,6 +1,8 @@
 package org.cart.next.Entities;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -14,7 +16,7 @@ public class Produto {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private BigInteger id;
 
     @Column(name = "name", length = 255)
     private String name;
@@ -25,11 +27,11 @@ public class Produto {
     @Column(name = "price")
     private BigDecimal price;
 
-    public long getId() {
+    public BigInteger getId() {
         return this.id;
     }
 
-    public void setId(long id) {
+    public void setId(BigInteger id) {
         this.id = id;
     }
 

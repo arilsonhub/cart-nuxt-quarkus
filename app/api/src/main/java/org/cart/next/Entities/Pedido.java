@@ -1,6 +1,7 @@
 package org.cart.next.Entities;
 
 import java.io.Serializable;
+import java.math.BigInteger;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -19,7 +20,7 @@ public class Pedido implements Serializable {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private BigInteger id;
 
     @Column(name = "credit_card")
     @JsonProperty("credit_card_number")
@@ -32,11 +33,11 @@ public class Pedido implements Serializable {
                 inverseJoinColumns={@JoinColumn(name="produto_id")})
     private List<Produto> produtos;
 
-    public Long getId() {
+    public BigInteger getId() {
         return this.id;
     }
 
-    public void setId(Long id) {
+    public void setId(BigInteger id) {
         this.id = id;
     }
 

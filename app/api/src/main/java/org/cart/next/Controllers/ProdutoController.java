@@ -1,5 +1,6 @@
 package org.cart.next.Controllers;
 
+import java.math.BigInteger;
 import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -16,7 +17,7 @@ public class ProdutoController {
 
     @Inject
     @Named("ProdutoDaoJpa")
-    private ProdutoRepository produtoRepository;
+    ProdutoRepository produtoRepository;
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -29,7 +30,7 @@ public class ProdutoController {
     @GET
     @Path("{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Produto obterProdutoPeloId(@PathParam Long id)
+    public Produto obterProdutoPeloId(@PathParam BigInteger id)
     {
         Produto produto = produtoRepository.obterProdutoPeloId(id);
         return produto;

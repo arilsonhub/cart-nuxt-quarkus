@@ -1,5 +1,6 @@
 package org.cart.next.Dao;
 
+import java.math.BigInteger;
 import java.util.List;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -14,7 +15,7 @@ import org.cart.next.Repositories.PedidoRepository;
 public class PedidoDaoJpa implements PedidoRepository {
     
     @Inject
-    private EntityManager entityManager;
+    EntityManager entityManager;
 
     public List<Pedido> obterPedidos()
     {
@@ -23,7 +24,7 @@ public class PedidoDaoJpa implements PedidoRepository {
         return listaPedidos;
     }
 
-    public Pedido obterPedidoPeloId(Long id)
+    public Pedido obterPedidoPeloId(BigInteger id)
     {
         Pedido pedido = this.entityManager.find(Pedido.class, id);
         return pedido;

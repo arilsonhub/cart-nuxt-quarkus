@@ -1,5 +1,6 @@
 package org.cart.next.Controllers;
 
+import java.math.BigInteger;
 import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -19,7 +20,7 @@ public class PedidoController {
 
     @Inject
     @Named("PedidoDaoJpa")
-    private PedidoRepository pedidoRepository;
+    PedidoRepository pedidoRepository;
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -32,7 +33,7 @@ public class PedidoController {
     @GET
     @Path("{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Pedido obterPedidoPeloId(@PathParam Long id)
+    public Pedido obterPedidoPeloId(@PathParam BigInteger id)
     {
         Pedido pedido = this.pedidoRepository.obterPedidoPeloId(id);
         return pedido;

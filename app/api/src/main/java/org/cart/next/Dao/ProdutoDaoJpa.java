@@ -1,5 +1,6 @@
 package org.cart.next.Dao;
 
+import java.math.BigInteger;
 import java.util.List;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -14,7 +15,7 @@ import org.cart.next.Repositories.ProdutoRepository;
 public class ProdutoDaoJpa implements ProdutoRepository {
 
     @Inject
-    private EntityManager entityManager;
+    EntityManager entityManager;
     
     public List<Produto> obterProdutos()
     {
@@ -22,7 +23,7 @@ public class ProdutoDaoJpa implements ProdutoRepository {
         return query.getResultList();
     }
 
-    public Produto obterProdutoPeloId(Long id)
+    public Produto obterProdutoPeloId(BigInteger id)
     {
         Produto produto = this.entityManager.find(Produto.class, id);
         return produto;
