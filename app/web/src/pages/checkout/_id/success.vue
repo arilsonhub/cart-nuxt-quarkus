@@ -11,12 +11,19 @@
 </template>
 
 <script lang="ts">
+import { Component, Vue } from 'nuxt-property-decorator';
 import { Context } from '@nuxt/types'
 import { container, Registry } from '../../../core/infra/containerRegistry'
 import { GetOrderUseCase } from '../../../core/application/order/getOrderUseCase'
+import { Order } from '../../../core/domain/entities/order';
 
-export default {
-  name: 'success',
+@Component
+export default class CheckOutSucess extends Vue {
+  order: Order = new Order({
+    id: 0,
+    products: [],
+    credit_card_number: ''
+  });
 
   async asyncData(context: Context) {
     const {id} = context.params || {}
@@ -25,12 +32,10 @@ export default {
     return {
       order
     }
-  },
+  }
 
-  methods: {
-    goToIndex() {
-      this.$router.push({name: 'index'});
-    }
+  goToIndex() {
+    this.$router.push({name: 'index'});
   }
 }
 </script>

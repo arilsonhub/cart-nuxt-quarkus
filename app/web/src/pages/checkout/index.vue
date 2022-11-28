@@ -9,7 +9,7 @@
     <form @submit.prevent="onSubmit">
         <div>
             <label>Cartão de crédito</label>&nbsp;
-            <input type="text" v-model="creditCardNumber" /><br /><br />
+            <input v-model="creditCardNumber" type="text" /><br /><br />
             <button type="submit">Comprar</button>&nbsp;
             <button @click.prevent="goToIndex">Voltar</button>
         </div>
@@ -18,39 +18,34 @@
 </template>
 
 <script lang="ts">
-import { mapState, mapActions } from 'vuex';
+import { Vue, Component, namespace } from 'nuxt-property-decorator';
 import { ProcessOrderUseCase } from '../../core/application/order/processOrderUseCase';
+import { Cart } from '../../core/domain/entities/cart';
 import { container, Registry } from '../../core/infra/containerRegistry';
+const cartStore = namespace('cart');
 
-export default {
-  name: 'checkout',
+@Component
+export default class CheckOutIndex extends Vue {
+  creditCardNumber: string = '';
 
-  data() {
-    return {
-      creditCardNumber: ''
-    }
-  },
+  @cartStore.State
+  cart!: Cart;
 
-  computed: {
-    ...mapState('cart', ['cart'])
-  },
+  @cartStore.Action
+  reloadCart!: () => void;
 
-  methods: {
-    ...mapActions('cart', ['reloadCart']),
+  async onSubmit() {
+    const processOrderUseCase = container.get<ProcessOrderUseCase>(Registry.ProcessOrderUseCase);
+    const order = await processOrderUseCase.execute({
+      products: this.cart.products,
+      credit_card_number: this.creditCardNumber
+    });
+    this.reloadCart();
+    this.$router.push({path: `/checkout/${order.id}/success`});
+  }
 
-    async onSubmit() {
-      const processOrderUseCase = container.get<ProcessOrderUseCase>(Registry.ProcessOrderUseCase);
-      const order = await processOrderUseCase.execute({
-        products: this.cart.products,
-        credit_card_number: this.creditCardNumber
-      });
-      this.reloadCart();
-      this.$router.push({path: `/checkout/${order.id}/success`});
-    },
-
-    goToIndex() {
-      this.$router.push({name: 'index'})
-    }
+  goToIndex() {
+    this.$router.push({name: 'index'});
   }
 }
 </script>

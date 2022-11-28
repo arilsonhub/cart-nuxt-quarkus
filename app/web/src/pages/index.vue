@@ -12,29 +12,29 @@
 </template>
 
 <script lang="ts">
+import { Component, Vue } from 'nuxt-property-decorator';
 import { ListProductsUseCase } from '../core/application/product/listProductsUseCase';
 import { Product } from '../core/domain/entities/product';
 import { container, Registry } from '../core/infra/containerRegistry';
 
-export default {
-  name: 'indexPage',
+@Component
+export default class Index extends Vue {
+  products: Array<Product> = [];
 
-  async asyncData() {
+  async asyncData(): Promise<object> {
     const useCase = container.get<ListProductsUseCase>(Registry.ListProductsUseCase);
     const products = await useCase.execute();
     return {
       products
     }
-  },
+  }
 
-  methods: {
-    goToProductDetail(product: Product) {
-      this.$router.push({name: 'products-id', params: {id: product.id}});
-    },
+  goToProductDetail(product: Product) {
+    this.$router.push({name: 'products-id', params: {id: String(product.id)}});
+  }
 
-    goToCheckout() {
-      this.$router.push({name: 'checkout'});
-    }
+  goToCheckout() {
+    this.$router.push({name: 'checkout'});
   }
 }
 </script>

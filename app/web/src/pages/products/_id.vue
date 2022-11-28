@@ -8,35 +8,41 @@
 </template>
 
 <script lang="ts">
+import { Component, Vue, namespace } from 'nuxt-property-decorator';
 import { Context } from '@nuxt/types';
 import { GetProductUseCase } from '../../core/application/product/getProductUseCase';
 import { container, Registry } from '../../core/infra/containerRegistry';
 import { Product } from '../../core/domain/entities/product';
-import { mapActions } from 'vuex';
+const cartStore = namespace('cart');
 
-export default {
-  name:'ProductDetail',
+@Component
+export default class ProductDetail extends Vue {
+  @cartStore.Action
+  addProductInCartAction!: (product: Product) => void;
 
-  async asyncData(context: Context) {
+  product: Product = new Product({
+    id: 0,
+    name: '',
+    description: '',
+    price: 0
+  });
+
+  async asyncData(context: Context): Promise<Object> {
     const {id} = context.params || {};
     const useCase = container.get<GetProductUseCase>(Registry.GetProductUseCase);
     const product = await useCase.execute(+id!);
     return {
       product
     }
-  },
+  }
 
-  methods: {
-    ...mapActions('cart', ['addProductInCartAction']),
+  addProductInCart(product: Product) {
+    this.addProductInCartAction(product);
+    this.goToIndex();
+  }
 
-    addProductInCart(product: Product) {
-      this.addProductInCartAction(product);
-      this.goToIndex();
-    },
-
-    goToIndex() {
-      this.$router.push({name: 'index'});
-    }
+  goToIndex() {
+    this.$router.push({name: 'index'});
   }
 }
 </script>

@@ -6,7 +6,9 @@
 </template>
 
 <script lang="ts">
-export default {
-  name: 'default'
+import { Component, Vue } from 'nuxt-property-decorator';
+
+@Component
+export default class Default extends Vue {
 }
 </script>

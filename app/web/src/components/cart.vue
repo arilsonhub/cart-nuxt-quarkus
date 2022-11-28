@@ -3,21 +3,22 @@
 </template>
 
 <script lang="ts">
-import { mapActions, mapState, mapGetters } from 'vuex';
+import { Component, Vue, namespace } from 'nuxt-property-decorator';
 import { GetCartUseCase } from '../core/application/cart/getCartUseCase';
+import { Cart } from '../core/domain/entities/cart';
 import { container, Registry } from '../core/infra/containerRegistry';
+const cartStore = namespace('cart');
 
-export default {
-  name: 'cart',
+@Component
+export default class CartView extends Vue {
+  @cartStore.Action
+  saveCart!: (cart: Cart) => void;
 
-  computed: {
-    ...mapState('cart', ['cart']),
-    ...mapGetters('cart', ['productsLength'])
-  },
+  @cartStore.State
+  cart!: Cart;
 
-  methods: {
-    ...mapActions('cart', ['saveCart'])
-  },
+  @cartStore.Getter
+  productsLength!: number;
 
   mounted() {
     const useCase = container.get<GetCartUseCase>(Registry.GetCartUseCase);

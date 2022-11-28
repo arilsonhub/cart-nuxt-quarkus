@@ -1,10 +1,10 @@
-import { AddProductInCartUseCase } from '~/src/core/application/cart/addProductInCartUseCase';
-import { GetCartUseCase } from '~/src/core/application/cart/getCartUseCase';
 import { Cart } from '../../core/domain/entities/cart';
 import { container, Registry } from '../../core/infra/containerRegistry';
 import { State, Mutations, MutationsInterface, ActionsInterface, Getters } from './types';
+import { AddProductInCartUseCase } from '~/src/core/application/cart/addProductInCartUseCase';
+import { GetCartUseCase } from '~/src/core/application/cart/getCartUseCase';
 
-export const state = (cart: Cart): State => ({
+export const state = (): State => ({
   cart: new Cart({
     products: []
   })
